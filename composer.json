@@ -1,0 +1,13 @@
+{
+    "name": "gr434_paami/eshyebc-m4",
+    "description": "praktika",
+    "type": "project",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "alena"
+        }
+    ],
+    "minimum-stability": "dev",
+    "require": {}
+}

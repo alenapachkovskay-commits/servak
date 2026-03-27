@@ -2,18 +2,24 @@
 
 namespace Controller;
 
-use Model\Post;
+use Model\Book;
 use Src\View;
 use Src\Request;
 use Model\User;
 use Src\Auth\Auth;
+use Model\Reservation;
 class Site
 {
-    public function index(Request $request): string
+    public function index(): string
     {
-        $posts = Post::where('id', $request->id)->get();
-        return (new View())->render('site.post', ['posts' => $posts]);
+        // Получаем все книги из таблицы Book_copies
+        $books = Book::all();
+
+        // Передаем переменную books в шаблон
+        return (new View())->render('site.index', ['books' => $books]);
     }
+
+
     public function hello(): string
     {
         return new View('site.hello', ['message' => 'hello working']);
@@ -39,6 +45,38 @@ class Site
         return new View('site.login', ['message' => 'Неправильные логин или пароль']);
     }
 
+// 1. Детальный просмотр книги
+    public function viewBook(Request $request): string
+    {
+        $book = Book::where('InventoryNumber', $request->id)->first();
+        return (new View())->render('site.view', ['book' => $book]);
+    }
+
+// 2. Личный кабинет пользователя (Мои бронирования)
+    public function myReservations(): string
+    {
+        // Получаем брони текущего пользователя вместе с данными о книгах
+        $reservations = \Model\Reservation::where('userID', Auth::user()->id)
+            ->with('book') // Загружаем связанные книги
+            ->get();
+
+        return (new View())->render('site.reservations', ['reservations' => $reservations]);
+    }
+
+
+// 3. Логика создания бронирования
+    public function reserve(Request $request): void
+    {
+        Reservation::create([
+            'BookID' => $request->id,
+            'userID' => Auth::user()->id,
+            'ReservationDate' => date('Y-m-d'),
+            'ExpiryDate' => date('Y-m-d', strtotime('+7 days')),
+            'Status' => 'booked'
+        ]);
+
+        app()->route->redirect('/my-reservations');
+    }
     public function logout(): void
     {
         Auth::logout();

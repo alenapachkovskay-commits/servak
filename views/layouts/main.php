@@ -10,7 +10,7 @@
 <body>
 <header>
     <nav>
-        <a href="<?= app()->route->getUrl('/hello') ?>">Главная</a>
+        <a href="<?= app()->route->getUrl('/') ?>">Главная</a>
         <?php
         if (!app()->auth::check()):
             ?>

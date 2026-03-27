@@ -1,0 +1,49 @@
+- Таблица ролей
+CREATE TABLE Role (
+    RoleID INT PRIMARY KEY AUTO_INCREMENT,
+    RoleName VARCHAR(50) NOT NULL -- ghost, reader и т.д.
+);
+
+-- Таблица статусов книг
+CREATE TABLE Status (
+    StatusID INT PRIMARY KEY AUTO_INCREMENT,
+    StatusName VARCHAR(50) NOT NULL -- available, booked, not available
+);
+
+-- Таблица пользователей
+CREATE TABLE user (
+    userID INT PRIMARY KEY AUTO_INCREMENT,
+    Surname VARCHAR(100),
+    Name VARCHAR(100),
+    Email VARCHAR(150) UNIQUE,
+    Phone VARCHAR(20),
+    RegestrationDate DATE,
+    login VARCHAR(50) UNIQUE,
+    password VARCHAR(255),
+    role INT,
+    FOREIGN KEY (role) REFERENCES Role(RoleID)
+);
+
+-- Таблица экземпляров книг
+CREATE TABLE Book_copies (
+    InventoryNumber INT PRIMARY KEY AUTO_INCREMENT,
+    SelfLocation VARCHAR(100),
+    StatusID INT,
+    Title VARCHAR(255),
+    Author VARCHAR(255),
+    IsElectronic BOOLEAN,
+    ElectronicLink VARCHAR(255),
+    FOREIGN KEY (StatusID) REFERENCES Status(StatusID)
+);
+
+-- Таблица бронирования
+CREATE TABLE Reservation (
+    ReservationID INT PRIMARY KEY AUTO_INCREMENT,
+    Status VARCHAR(50),
+    BookID INT,
+    userID INT,
+    ReservationDate DATE,
+    ExpiryDate DATE,
+    FOREIGN KEY (BookID) REFERENCES Book_copies(InventoryNumber),
+    FOREIGN KEY (userID) REFERENCES user(userID)
+);

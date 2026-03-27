@@ -8,6 +8,7 @@ use Src\Auth\Auth;
 
 <?php if (Auth::check()): ?>
     <form method="POST" action="/reserve">
+        <!-- Имя должно быть "id" -->
         <input type="hidden" name="id" value="<?= $book->InventoryNumber ?>">
         <button type="submit">Забронировать книгу</button>
     </form>

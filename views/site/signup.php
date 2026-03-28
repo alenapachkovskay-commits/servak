@@ -1,7 +1,7 @@
 <h2>Регистрация нового пользователя</h2>
-<h3 style="color: red;"><?= $message ?? ''; ?></h3>
+<pre><?= $message ?? ''; ?></pre>
 <form method="post">
-    <!-- Имена полей теперь совпадают с колонками в БД -->
+    <input name="csrf_token" type="hidden" value="<?= app()->auth::generateCSRF() ?>"/>
     <label>Фамилия <input type="text" name="Surname" required></label><br>
     <label>Имя <input type="text" name="Name" required></label><br>
     <label>Email <input type="email" name="Email" required></label><br>

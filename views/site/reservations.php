@@ -1,15 +1,42 @@
 <h2>Мои забронированные книги</h2>
-<table>
+<table border="1" cellpadding="10" style="border-collapse: collapse; width: 50%;">
     <tr>
-        <th>Книга</th>
+        <th>Название</th>
+        <th>Автор</th>
         <th>Дата брони</th>
-        <th>Срок до</th>
+        <th>Срок действия</th>
+        <th>Местоположение</th>
+        <th>Электронная</th>
+        <th>Действия</th>
     </tr>
-    <?php foreach ($reservations as $res): ?>
-        <tr>
-            <td><?= $res->book->Title ?? 'Книга удалена' ?></td>
-            <td><?= $res->ReservationDate ?></td>
-            <td><?= $res->ExpiryDate ?></td>
-        </tr>
-    <?php endforeach; ?>
+    <?php if (empty($reservations)): ?>
+        <tr><td colspan="7">Нет активных бронирований.</td></tr>
+    <?php else: ?>
+        <?php foreach ($reservations as $res): ?>
+            <tr>
+                <td><?= $res->book->Title ?? 'N/A' ?></td>
+                <td><?= $res->book->Author ?? 'N/A' ?></td>
+                <td><?= $res->ReservationDate ?></td>
+                <td><?= $res->ExpiryDate ?></td>
+                <td><?= $res->book->SelfLocation ?? '' ?></td>
+                <td>
+                    <?php if ($res->book->IsElectronic): ?>
+                        <a href="<?= $res->book->ElectronicLink ?>" target="_blank">Читать онлайн</a>
+                    <?php else: ?>
+                        Нет
+                    <?php endif; ?>
+                </td>
+                <td>
+                    <!-- Форма для отмены бронирования -->
+                    <form method="POST" action="/reserve/cancel" onsubmit="return confirm('Вы уверены, что хотите отменить бронь?');">
+                        <input type="hidden" name="reservation_id" value="<?= $res->ReservationID ?>">
+                        <input type="hidden" name="book_id" value="<?= $res->BookID ?>">
+                        <button type="submit" style="background: #dc3545; color: white; border: none; padding: 5px 10px; cursor: pointer;">
+                            Отменить
+                        </button>
+                    </form>
+                </td>
+            </tr>
+        <?php endforeach; ?>
+    <?php endif; ?>
 </table>

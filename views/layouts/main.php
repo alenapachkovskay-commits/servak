@@ -11,19 +11,18 @@
 <header>
     <nav>
         <a href="<?= app()->route->getUrl('/') ?>">Главная</a>
-        <?php
-        if (!app()->auth::check()):
-            ?>
+        <?php if (!app()->auth::check()): ?>
             <a href="<?= app()->route->getUrl('/login') ?>">Вход</a>
             <a href="<?= app()->route->getUrl('/signup') ?>">Регистрация</a>
-        <?php
-        else:
-            ?>
-            <a href="<?= app()->route->getUrl('/logout') ?>">Выход (<?= app()->auth::user()->name ?>)</a>
-        <?php
-        endif;
-        ?>
+        <?php else: ?>
+            <!-- Добавили ссылку на личный кабинет -->
+            <a href="<?= app()->route->getUrl('/my-reservations') ?>">Мои брони</a>
+
+            <!-- Исправлено на Name (с большой буквы) -->
+            <a href="<?= app()->route->getUrl('/logout') ?>">Выход (<?= app()->auth::user()->Name ?>)</a>
+        <?php endif; ?>
     </nav>
+
 </header>
 <main>
     <?= $content ?? '' ?>

@@ -15,16 +15,23 @@ class User extends Model implements IdentityInterface
     protected $primaryKey = 'userID';
     public $timestamps = false;
     protected $fillable = [
-        'name',
+        'Name',
+        'Surname',
+        'Email',
         'login',
-        'password'
+        'password',
+        'role',
+        'RegestrationDate'
     ];
+
+
 
     protected static function booted()
     {
-        static::created(function ($user) {
+        static::creating(function ($user) {
             $user->password = md5($user->password);
-            $user->save();
+            $user->RegestrationDate = date('Y-m-d');
+            $user->role = 2; // По умолчанию 'reader'
         });
     }
 

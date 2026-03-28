@@ -15,7 +15,12 @@ Route::add('GET', '/book/view', [Controller\Site::class, 'viewBook']);
 Route::add('GET', '/my-reservations', [Controller\Site::class, 'myReservations'])
     ->middleware('auth');
 
-// Обработка бронирования
-Route::add('POST', '/reserve', [Controller\Site::class, 'reserve'])
-    ->middleware('auth');
+// 1. Показываем форму (у тебя уже есть)
+Route::add(['GET', 'POST'], '/reserve', [Controller\Site::class, 'showReserveForm']);
 
+// 2. ДОБАВЬ ЭТО: Сохраняем бронь в базу
+Route::add('POST', '/reserve/confirm', [Controller\Site::class, 'reserve'])
+    ->middleware('auth');
+// Отмена бронирования
+Route::add('POST', '/reserve/cancel', [Controller\Site::class, 'cancelReservation'])
+    ->middleware('auth');

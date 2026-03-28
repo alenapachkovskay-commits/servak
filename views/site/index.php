@@ -1,5 +1,5 @@
-<h1>Добро пожаловать на главную страницу!</h1>
-<h2>Каталог книг</h2>
+
+<h1>Каталог книг</h1>
 <div class="catalog">
     <?php foreach ($books as $book): ?>
         <div class="book-card" style="...">

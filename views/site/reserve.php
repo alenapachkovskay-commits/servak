@@ -9,7 +9,14 @@
     </div>
 
     <form method="POST" action="/reserve/confirm">
-        <!-- Передаем ID скрытым полем для сохранения -->
+        <!-- CSRF ТОКЕН - обязательно! -->
+        <input type="hidden" name="csrf_token" value="<?php
+        if (!isset($_SESSION['csrf_token'])) {
+            $_SESSION['csrf_token'] = bin2hex(random_bytes(32));
+        }
+        echo $_SESSION['csrf_token'];
+        ?>">
+
         <input type="hidden" name="book_id" value="<?= $book->InventoryNumber ?>">
 
         <div style="margin: 20px 0;">

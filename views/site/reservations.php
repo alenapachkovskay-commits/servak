@@ -27,8 +27,13 @@
                     <?php endif; ?>
                 </td>
                 <td>
-                    <!-- Форма для отмены бронирования -->
-                    <form method="POST" action="/reserve/cancel" onsubmit="return confirm('Вы уверены, что хотите отменить бронь?');">
+                    <form method="POST" action="/reserve/cancel" onsubmit="return confirm('Вы уверены?');" style="display: inline;">
+                        <input type="hidden" name="csrf_token" value="<?php
+                        if (!isset($_SESSION['csrf_token'])) {
+                            $_SESSION['csrf_token'] = bin2hex(random_bytes(32));
+                        }
+                        echo $_SESSION['csrf_token'];
+                        ?>">
                         <input type="hidden" name="reservation_id" value="<?= $res->ReservationID ?>">
                         <input type="hidden" name="book_id" value="<?= $res->BookID ?>">
                         <button type="submit" style="background: #dc3545; color: white; border: none; padding: 5px 10px; cursor: pointer;">

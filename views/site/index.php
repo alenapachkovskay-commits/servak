@@ -1,6 +1,14 @@
 
 <h1>Каталог книг</h1>
 <div class="catalog">
+    <?php if ($searchQuery): ?>
+        <p>Найдено по запросу "<?= htmlspecialchars($searchQuery) ?>": <?= $books->count() ?> книг</p>
+    <?php endif; ?>
+
+    <!-- Ваши карточки книг -->
+    <?php foreach ($books as $book): ?>
+        <!-- ... -->
+    <?php endforeach; ?>
     <?php foreach ($books as $book): ?>
         <div class="book-card" style="...">
             <h3><?= $book->Title ?></h3>

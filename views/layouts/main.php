@@ -124,7 +124,17 @@
             <a href="<?= app()->route->getUrl('/logout') ?>">Выход из аккаунта пользователя (<?= app()->auth::user()->Name ?>)</a>
         <?php endif; ?>
     </nav>
-
+    <!-- После навигации, перед </header> -->
+    <div style="padding: 20px; background: #f5f5f5; text-align: center;">
+        <form method="GET" action="<?= app()->route->getUrl('/') ?>">
+            <input type="text" name="search" value="<?= $_GET['search'] ?? '' ?>"
+                   placeholder="Поиск книг по названию..."
+                   style="padding: 10px; width: 300px; border: 1px solid #ccc; border-radius: 5px;">
+            <button type="submit" style="padding: 10px 20px; background: #007cba; color: white; border: none; border-radius: 5px; cursor: pointer;">
+                🔍 Найти
+            </button>
+        </form>
+    </div>
 </header>
 <main>
     <?= $content ?? '' ?>

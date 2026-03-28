@@ -13,11 +13,15 @@ class Site
 {
     public function index(): string
     {
-        // Получаем все книги из таблицы Book_copies
-        $books = Book::all();
+        $search = $_GET['search'] ?? '';
+        $books = $search
+            ? Book::where('Title', 'LIKE', "%{$search}%")->get()
+            : Book::all();
 
-        // Передаем переменную books в шаблон
-        return (new View())->render('site.index', ['books' => $books]);
+        return (new View())->render('site.index', [
+            'books' => $books,
+            'searchQuery' => $search
+        ]);
     }
 
 
